@@ -1,20 +1,15 @@
 // TikTok Live Connection
 let ws = null;
-const giftMapping = {
-    'Rose': 10,
-    'Teddy Bear': 25,
-    'Diamond': 50,
-    'VirtualGift': 100,
-    'PK Gift': 100
-};
 
-const countryGifts = {
-    'saudi': 0,
-    'uae': 0,
-    'qatar': 0,
-    'kuwait': 0,
-    'bahrain': 0,
-    'oman': 0
+// Gift to country mapping for TikTok Live
+const tiktokGiftMapping = {
+    'Rose': { country: 'saudi', points: 10 },
+    'Teddy Bear': { country: 'bahrain', points: 35 },
+    'Diamond': { country: 'qatar', points: 50 },
+    'Heart': { country: 'uae', points: 25 },
+    'VirtualGift': { country: 'kuwait', points: 100 },
+    'PK Gift': { country: 'oman', points: 100 },
+    'Fireworks': { country: 'kuwait', points: 100 }
 };
 
 // Connect to TikTok Live
@@ -123,50 +118,52 @@ function handleTikTokEvent(event) {
     }
 }
 
-// Handle gift event
+// Handle gift event - كل هدية تحرك دولة محددة
 function handleGift(event) {
     const { username, giftName, giftCount } = event;
     
-    // Map gift to points
-    let points = giftMapping[giftName] || 10;
-    points *= giftCount;
-
-    // Randomly select a country
-    const countries = ['saudi', 'uae', 'qatar', 'kuwait', 'bahrain', 'oman'];
-    const randomCountry = countries[Math.floor(Math.random() * countries.length)];
-
-    // Add gift
-    addGift(randomCountry, giftName, points);
+    // Get mapping for this gift
+    const mapping = tiktokGiftMapping[giftName];
     
-    console.log(`🎁 Gift from ${username}: ${giftName} x${giftCount} = ${points} points to ${randomCountry}`);
+    if (mapping) {
+        const country = mapping.country;
+        const totalPoints = mapping.points * giftCount;
+        
+        // Add gift to specific country
+        addGift(Object.keys(giftCountryMapping).find(
+            key => giftCountryMapping[key].country === country
+        ), totalPoints);
+        
+        console.log(`🎁 Gift from ${username}: ${giftName} x${giftCount} = ${totalPoints} points to ${countryNames[country]}`);
+        addActivityLog({
+            type: 'gift',
+            username: username,
+            giftName: giftName,
+            giftCount: giftCount,
+            country: countryNames[country]
+        });
+    }
 }
 
-// Handle like event
+// Handle like event - اللايكات تحرك الكويت
 function handleLike(event) {
     const { username, likeCount } = event;
     
-    // Add points for likes
-    const countries = ['saudi', 'uae', 'qatar', 'kuwait', 'bahrain', 'oman'];
-    const randomCountry = countries[Math.floor(Math.random() * countries.length)];
-    
-    // 1 like = 1 point
+    // Likes move Kuwait
     const points = likeCount;
-    addGift(randomCountry, 'Like', points);
+    addGift('fireworks', points);
     
-    console.log(`👍 Like from ${username}: ${likeCount} likes to ${randomCountry}`);
+    console.log(`👍 Like from ${username}: ${likeCount} likes to الكويت`);
 }
 
-// Handle follow event
+// Handle follow event - المتابعة تحرك عمان
 function handleFollow(event) {
     const { username } = event;
     
-    // Add bonus points for follow
-    const countries = ['saudi', 'uae', 'qatar', 'kuwait', 'bahrain', 'oman'];
-    const randomCountry = countries[Math.floor(Math.random() * countries.length)];
+    // Follows move Oman
+    addGift('gift', 50);
     
-    addGift(randomCountry, 'Follow', 50);
-    
-    console.log(`❤️ Follow from ${username} to ${randomCountry}`);
+    console.log(`❤️ Follow from ${username} to عمان`);
 }
 
 // Update status indicator
@@ -207,7 +204,7 @@ function addActivityLog(event) {
     
     switch (event.type) {
         case 'gift':
-            message = `🎁 ${event.username} أرسل ${event.giftName} x${event.giftCount}`;
+            message = `🎁 ${event.username} أرسل ${event.giftName} x${event.giftCount} → ${event.country}`;
             break;
         case 'like':
             message = `👍 ${event.username} أرسل ${event.likeCount} لايك`;
