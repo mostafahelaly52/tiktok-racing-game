@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة السباق التفاعلية</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body dir="rtl">
+    <div class="container">
+        <h1>🏃 لعبة السباق التفاعلية ⚽</h1>
+        
+        <div class="game-board">
+            <!-- صف السعودية -->
+            <div class="race-row">
+                <div class="country-flag">🇸🇦</div>
+                <div class="country-name">السعودية</div>
+                <div class="race-track">
+                    <div class="player saudi-player">🏃</div>
+                </div>
+                <div class="score-box">
+                    <span class="score" id="saudi-score">0</span>
+                </div>
+            </div>
+
+            <!-- صف الإمارات -->
+            <div class="race-row">
+                <div class="country-flag">🇦🇪</div>
+                <div class="country-name">الإمارات</div>
+                <div class="race-track">
+                    <div class="player uae-player">🏃</div>
+                </div>
+                <div class="score-box">
+                    <span class="score" id="uae-score">0</span>
+                </div>
+            </div>
+
+            <!-- صف قطر -->
+            <div class="race-row">
+                <div class="country-flag">🇶🇦</div>
+                <div class="country-name">قطر</div>
+                <div class="race-track">
+                    <div class="player qatar-player">🏃</div>
+                </div>
+                <div class="score-box">
+                    <span class="score" id="qatar-score">0</span>
+                </div>
+            </div>
+
+            <!-- صف الكويت -->
+            <div class="race-row">
+                <div class="country-flag">🇰🇼</div>
+                <div class="country-name">الكويت</div>
+                <div class="race-track">
+                    <div class="player kuwait-player">🏃</div>
+                </div>
+                <div class="score-box">
+                    <span class="score" id="kuwait-score">0</span>
+                </div>
+            </div>
+
+            <!-- صف البحرين -->
+            <div class="race-row">
+                <div class="country-flag">🇧🇭</div>
+                <div class="country-name">البحرين</div>
+                <div class="race-track">
+                    <div class="player bahrain-player">🏃</div>
+                </div>
+                <div class="score-box">
+                    <span class="score" id="bahrain-score">0</span>
+                </div>
+            </div>
+
+            <!-- صف عمان -->
+            <div class="race-row">
+                <div class="country-flag">🇴🇲</div>
+                <div class="country-name">عمان</div>
+                <div class="race-track">
+                    <div class="player oman-player">🏃</div>
+                </div>
+                <div class="score-box">
+                    <span class="score" id="oman-score">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- لوحة التحكم -->
+        <div class="control-panel">
+            <h2>أرسل هدية لتحريك اللاعبين! 🎁</h2>
+            
+            <div class="gift-buttons">
+                <button class="gift-btn rose-btn" onclick="addGift('saudi', 'rose', 10)">
+                    🌹 وردة
+                    <span class="gift-value">+10</span>
+                </button>
+                <button class="gift-btn diamond-btn" onclick="addGift('saudi', 'diamond', 50)">
+                    💎 الماس
+                    <span class="gift-value">+50</span>
+                </button>
+                <button class="gift-btn heart-btn" onclick="addGift('saudi', 'heart', 25)">
+                    ❤️ قلب
+                    <span class="gift-value">+25</span>
+                </button>
+                <button class="gift-btn fireworks-btn" onclick="addGift('saudi', 'fireworks', 100)">
+                    🎆 الألعاب النارية
+                    <span class="gift-value">+100</span>
+                </button>
+            </div>
+
+            <h3>اختر الدولة:</h3>
+            <div class="country-selector">
+                <select id="country-select" onchange="updateSelectedCountry()">
+                    <option value="saudi">🇸🇦 السعودية</option>
+                    <option value="uae">🇦🇪 الإمارات</option>
+                    <option value="qatar">🇶🇦 قطر</option>
+                    <option value="kuwait">🇰🇼 الكويت</option>
+                    <option value="bahrain">🇧🇭 البحرين</option>
+                    <option value="oman">🇴🇲 عمان</option>
+                </select>
+            </div>
+
+            <button class="reset-btn" onclick="resetGame()">🔄 إعادة تعيين اللعبة</button>
+        </div>
+
+        <!-- النتائج -->
+        <div class="results-panel">
+            <h2>🏆 جدول النتائج</h2>
+            <div id="leaderboard" class="leaderboard"></div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

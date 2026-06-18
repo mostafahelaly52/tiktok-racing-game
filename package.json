@@ -1,0 +1,21 @@
+{
+  "name": "tiktok-racing-game",
+  "version": "1.0.0",
+  "description": "Interactive TikTok Racing Game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "tiktok",
+    "game",
+    "racing",
+    "interactive"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
